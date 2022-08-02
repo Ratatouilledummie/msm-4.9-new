@@ -2110,11 +2110,14 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_ENABLE_RX_STBC_MAX                   ( 1 )
 #define CFG_ENABLE_RX_STBC_DEFAULT               ( 1 )
 
+<<<<<<< HEAD
+=======
 #define CFG_ENABLE_TX_STBC                       "gEnableTXSTBC"
 #define CFG_ENABLE_TX_STBC_MIN                   ( 0 )
 #define CFG_ENABLE_TX_STBC_MAX                   ( 1 )
 #define CFG_ENABLE_TX_STBC_DEFAULT               ( 1 )
 
+>>>>>>> 3df2b965a11da4f43d5722d05bf309a1686c04a4
 /* 
  * Enable/Disable vsta based on MAX Assoc limit 
  * defined in WCNSS_qcom_cfg.ini.
@@ -3322,6 +3325,8 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_ENABLE_SAE_FOR_SAP_MIN     (0)
 #define CFG_ENABLE_SAE_FOR_SAP_MAX     (1)
 
+<<<<<<< HEAD
+=======
 #define CFG_SW_PTA_ENABLE_NAME         "sw_pta_enable"
 #define CFG_SW_PTA_ENABLE_DEFAULT      (0)
 #define CFG_SW_PTA_ENABLE_MIN          (0)
@@ -3333,6 +3338,7 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_PERIODIC_ROAM_SCAN_ENABLED_MAX     (1)
 #define CFG_PERIODIC_ROAM_SCAN_ENABLED_DEFAULT (0)
 
+>>>>>>> 3df2b965a11da4f43d5722d05bf309a1686c04a4
 /*--------------------------------------------------------------------------- 
   Type declarations
   -------------------------------------------------------------------------*/ 
@@ -3706,7 +3712,10 @@ typedef struct
    v_U16_t                     configMccParam;
    v_U32_t                     numBuffAdvert;
    v_BOOL_t                    enableRxSTBC;
+<<<<<<< HEAD
+=======
    v_BOOL_t                    enableTxSTBC;
+>>>>>>> 3df2b965a11da4f43d5722d05bf309a1686c04a4
 #ifdef FEATURE_WLAN_TDLS       
    v_BOOL_t                    fEnableTDLSSupport;
    v_BOOL_t                    fEnableTDLSImplicitTrigger;
@@ -3957,10 +3966,13 @@ typedef struct
 #ifdef FEATURE_WLAN_LFR
    uint8_t                     bssid_blacklist_timeout;
 #endif
+<<<<<<< HEAD
+=======
 #ifdef FEATURE_WLAN_SW_PTA
    bool                        is_sw_pta_enabled;
 #endif
    bool                        isPeriodicRoamScanEnabled;
+>>>>>>> 3df2b965a11da4f43d5722d05bf309a1686c04a4
 } hdd_config_t;
 
 /*--------------------------------------------------------------------------- 

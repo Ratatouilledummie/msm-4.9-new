@@ -1550,7 +1550,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 akm_type = lim_translate_rsn_oui_to_akm_type(
                                     Dot11fIERSN.akm_suite[0]);
 
-#ifdef WLAN_FEATURE_SAE
                 if (akm_type == ANI_AKM_TYPE_SAE) {
                     if (eSIR_SUCCESS != (status =
                         lim_check_sae_pmf_cap(psessionEntry, &Dot11fIERSN))) {
@@ -1566,7 +1565,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                         goto error;
                     }
                 }
-#endif
 
             } /* end - if(pAssocReq->rsnPresent) */
             if((!pAssocReq->rsnPresent) && pAssocReq->wpaPresent)
@@ -1679,7 +1677,7 @@ error:
 \param  pMac
 \param  *pStaDs - Station DPH hash entry
 \param  psessionEntry - PE session entry
-\return None
+\return tSirRetStatus
 
  * ?????? How do I get 
  *  - subtype   =====> psessionEntry->parsedAssocReq.reassocRequest
@@ -1689,7 +1687,7 @@ error:
  *  - pHdr->seqControl  =====> no longer needed
  *  - pStaDs
 ------------------------------------------------------------------*/
-void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession psessionEntry)
+tSirRetStatus limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession psessionEntry)
 {
     tpLimMlmAssocInd        pMlmAssocInd = NULL;
     tpLimMlmReassocInd      pMlmReassocInd;
@@ -1728,7 +1726,7 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         {
             limReleasePeerIdx(pMac, pStaDs->assocId, psessionEntry);
             limLog(pMac, LOGP, FL("AllocateMemory failed for pMlmAssocInd"));
-            return;
+            return eSIR_MEM_ALLOC_FAILED;
         }
         vos_mem_set(pMlmAssocInd, temp ,0);
 
@@ -1782,7 +1780,7 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
                 PELOGE(limLog(pMac, LOGE, FL("rsnIEdata index out of bounds %d"),
                                               pMlmAssocInd->rsnIE.length);)
                 vos_mem_free(pMlmAssocInd);
-                return;
+                return eSIR_FAILURE;
             }
             pMlmAssocInd->rsnIE.rsnIEdata[pMlmAssocInd->rsnIE.length] = SIR_MAC_WPA_EID;
             pMlmAssocInd->rsnIE.rsnIEdata[pMlmAssocInd->rsnIE.length + 1] = pAssocReq->wpa.length;
@@ -1902,7 +1900,7 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
             limLog(pMac, LOGP, FL("call to AllocateMemory failed for "
                                   "pMlmReassocInd"));
             limReleasePeerIdx(pMac, pStaDs->assocId, psessionEntry);
-            return;
+            return eSIR_MEM_ALLOC_FAILED;
         }
         vos_mem_set(pMlmReassocInd, temp, 0);
 
@@ -2026,6 +2024,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         vos_mem_free(pMlmReassocInd);
     }
 
-    return;
+    return eSIR_SUCCESS;
 
 } /*** end limSendMlmAssocInd() ***/

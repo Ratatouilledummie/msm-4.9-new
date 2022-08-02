@@ -1,4 +1,4 @@
- # We can build either as part of a standalone Kernel build or part
+# We can build either as part of a standalone Kernel build or part
 # of an Android build.  Determine which mechanism is being used
 ifeq ($(MODNAME),)
 	KERNEL_BUILD := 1
@@ -25,6 +25,9 @@ ifeq ($(KERNEL_BUILD), 0)
 
 #Flag to enable SAE
     CONFIG_WLAN_FEATURE_SAE := y
+
+#Flag to enable SW PTA
+    CONFIG_WLAN_FEATURE_SW_PTA := y
 
 #Flag to enable OWE
     CONFIG_WLAN_AKM_SUITE_OWE := y
@@ -107,7 +110,7 @@ endif # ANDROID_BUILD_TOP
 else
 ifneq ($(ANDROID_BUILD_TOP),)
 ifeq ($(TARGET_PRODUCT),sdm429w)
-    WLAN_BLD_DIR := $(ANDROID_BUILD_TOP)/device/qcom/sdm429w/common/opensource/wlan
+    WLAN_BLD_DIR := $(ANDROID_BUILD_TOP)/$(BOARD_OPENSOURCE_DIR)/wlan
 else
     WLAN_BLD_DIR := $(ANDROID_BUILD_TOP)/vendor/qcom/opensource/wlan
 endif #TARGET_PRODUCT
@@ -691,6 +694,10 @@ ifeq ($(CONFIG_WLAN_FEATURE_SAE),y)
 CDEFINES += -DWLAN_FEATURE_SAE
 endif
 
+ifeq ($(CONFIG_WLAN_FEATURE_SW_PTA),y)
+CDEFINES += -DFEATURE_WLAN_SW_PTA
+endif
+
 ifeq ($(CONFIG_WLAN_AKM_SUITE_OWE),y)
 CDEFINES += -DWLAN_AKM_SUITE_OWE
 endif
@@ -751,7 +758,6 @@ endif
 
 CDEFINES += -DFEATURE_WLAN_CH_AVOID
 CDEFINES += -DWLAN_FEATURE_AP_HT40_24G
-CDEFINES += -DMOTO_UTAGS_MAC
 
 # Some kernel include files are being moved.  Check to see if
 # the old version of the files are present
@@ -781,11 +787,3 @@ KBUILD_CPPFLAGS += $(CDEFINES)
 obj-$(CONFIG_PRIMA_WLAN) += $(MODNAME).o
 obj-$(CONFIG_PRONTO_WLAN) += $(MODNAME).o
 $(MODNAME)-y := $(OBJS)
-
-subdir-ccflags-y += \
-	-Wno-array-bounds \
-	-Wno-empty-body \
-	-Wno-enum-conversion \
-	-Wno-non-literal-null-conversion \
-	-Wno-parentheses-equality \
-	-Wno-typedef-redefinition
